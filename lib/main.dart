@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-
 void main() {runApp(MyApp());}
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -12,7 +10,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Bloc Button Counter'),
     );
   }
 }
@@ -20,12 +18,11 @@ class MyApp extends StatelessWidget {
 
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title}):super(key:key);
   final String title;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
 
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -35,7 +32,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'push it many times',
             ),
             Text(
               '$_counter',
@@ -56,10 +52,26 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      floatingActionButton: Center(
+        child: Padding(
+          padding: EdgeInsets.only(left:35, bottom: 50),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              FloatingActionButton(
+                onPressed: _incrementCounter,
+                tooltip: 'Increment',
+                child: Icon(Icons.add),
+              ),
+              SizedBox(height: 10),
+              FloatingActionButton(
+                onPressed: _incrementCounter,
+                tooltip: 'Decrement',
+                child: Icon(Icons.remove),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
