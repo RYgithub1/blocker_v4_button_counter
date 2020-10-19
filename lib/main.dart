@@ -27,34 +27,39 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _incrementCounter() {   /// [setState]
+    setState(() {_counter++;});
   }
+  void _decrementCounter() {   /// [setState]
+    setState(() {_counter--;});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Center(child: Text(widget.title)),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'push it many times',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(bottom:180),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'push buttons',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: Center(
         child: Padding(
-          padding: EdgeInsets.only(left:35, bottom: 50),
+          padding: EdgeInsets.only(left:35, bottom:150),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -63,9 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'Increment',
                 child: Icon(Icons.add),
               ),
-              SizedBox(height: 10),
+              SizedBox(height:20),
               FloatingActionButton(
-                onPressed: _incrementCounter,
+                onPressed: _decrementCounter,
                 tooltip: 'Decrement',
                 child: Icon(Icons.remove),
               ),
