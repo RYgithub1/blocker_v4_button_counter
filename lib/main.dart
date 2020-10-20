@@ -1,3 +1,5 @@
+import 'package:blocker_v4_button_counter/counter_bloc.dart';
+import 'package:blocker_v4_button_counter/counter_event.dart';
 import 'package:flutter/material.dart';
 
 void main() {runApp(MyApp());}
@@ -25,15 +27,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 
+
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {   /// [setState]
-    setState(() {_counter++;});
-  }
-  void _decrementCounter() {   /// [setState]
-    setState(() {_counter--;});
+  // int _counter = 0;
+  // void _incrementCounter() {   /// [setState]
+  //   setState(() {_counter++;});
+  // }
+  // void _decrementCounter() {   /// [setState]
+  //   setState(() {_counter--;});
+  // }
+  final _bloc = CounterBloc();   /// [to bloc]
+  @override
+  void dispose() {   /// [to bloc]
+    _bloc.dispose();
+    super.dispose();
   }
 
+  /// [----- build() -----]
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,20 +51,42 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(child: Text(widget.title)),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom:180),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'push buttons',
+        // child: Padding(
+        //   padding: const EdgeInsets.only(bottom:180),
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: <Widget>[
+        //       Text(
+        //         'push buttons',
+        //       ),
+        //       Text(
+        //         '$_counter',
+        //         style: Theme.of(context).textTheme.headline4,
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        child: StreamBuilder(    /// [to bloc]->[StreamBuilderが有効,,blocでstreamのデータ反映]
+          stream: _bloc.counter,
+          initialData: 0,
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot){
+            return Padding(
+              padding: const EdgeInsets.only(bottom:180),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'push buttons (bloc)',
+                  ),
+                  Text(
+                    // '$snapshot.data',  // {囲まないと参照先が別}
+                    '${snapshot.data}',   /// [dataはsnapshotに格納される]
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ],
               ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
       floatingActionButton: Center(
@@ -64,13 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               FloatingActionButton(
-                onPressed: _incrementCounter,
+                // onPressed: _incrementCounter,
+                onPressed: () => _bloc.counterEventSink.add(IncrementEvent()),   /// [to bloc]
                 tooltip: 'Increment',
                 child: Icon(Icons.add),
               ),
               SizedBox(height:20),
               FloatingActionButton(
-                onPressed: _decrementCounter,
+                // onPressed: _decrementCounter,
+                onPressed: () => _bloc.counterEventSink.add(DecrementEvent()),   /// [to bloc]
                 tooltip: 'Decrement',
                 child: Icon(Icons.remove),
               ),
